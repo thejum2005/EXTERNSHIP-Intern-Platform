@@ -5,10 +5,8 @@ class Config:
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "change-this-in-production")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "mysql+pymysql://root:YOUR_PASSWORD@localhost/externship_db"
-    )
+    # Use database from environment variable
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
