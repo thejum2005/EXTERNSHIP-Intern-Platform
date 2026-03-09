@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks | Admin{% endblock %}
+{% block page_title %}Task Management{% endblock %}
+{% block page_subtitle %}Assign daily tasks to interns{% endblock %}
+
+{% block content %}
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">Assign Task</div>
+          <form method="post">
+            <div class="mb-2">
+              <label class="form-label">Task Title</label>
+              <input class="form-control" name="title" required />
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" name="description" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Assigned Intern</label>
+              <select class="form-select" name="intern_id" required>
+                <option value="">Select intern…</option>
+                {% for i in interns %}
+                  <option value="{{ i.id }}">{{ i.name }} ({{ i.email }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Assign</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">All Tasks</div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Intern</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for t in page.items %}
+                  <tr>
+                    <td class="fw-semibold">{{ t.title }}</td>
+                    <td>{{ t.intern.name }}</td>
+                    <td>
+                      {% if t.status == 'Completed' %}
+                        <span class="badge bg-success">Completed</span>
+                      {% else %}
+                        <span class="badge bg-primary">Assigned</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% else %}
+                  <tr><td colspan="3" class="text-secondary">No tasks assigned yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% include "partials/pagination.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

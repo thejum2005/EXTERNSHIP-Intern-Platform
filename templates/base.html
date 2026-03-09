@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}EXTERNSHIP INTERN PLATFORM{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+  <body>
+    <div class="d-flex">
+      <aside class="sidebar bg-dark text-white">
+        <div class="p-3 border-bottom border-secondary">
+          <div class="fw-semibold">EXTERNSHIP</div>
+          <div class="small text-secondary">Intern Platform</div>
+        </div>
+
+        <nav class="nav flex-column p-2 gap-1">
+          {% if current_user.is_authenticated and current_user.role == 'admin' %}
+            <a class="nav-link text-white" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.interns') }}">Interns</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.attendance') }}">Attendance</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.leaves') }}">Leave Requests</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.projects') }}">Projects</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.tasks') }}">Tasks</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.feedback') }}">Weekly Feedback</a>
+            <a class="nav-link text-white" href="{{ url_for('admin.intern_friday') }}">Intern Friday</a>
+          {% elif current_user.is_authenticated and current_user.role == 'intern' %}
+            <a class="nav-link text-white" href="{{ url_for('intern.dashboard') }}">Dashboard</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.attendance') }}">Attendance</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.leave') }}">Leave</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.projects') }}">Projects</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.tasks') }}">Tasks</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.feedback') }}">Feedback</a>
+            <a class="nav-link text-white" href="{{ url_for('intern.intern_friday') }}">Intern Friday</a>
+          {% endif %}
+        </nav>
+
+        <div class="mt-auto p-3 border-top border-secondary">
+          {% if current_user.is_authenticated %}
+            <div class="small text-secondary">Signed in as</div>
+            <div class="fw-semibold">{{ current_user.name }}</div>
+            <a class="btn btn-outline-light btn-sm mt-2 w-100" href="{{ url_for('auth.logout') }}">Logout</a>
+          {% else %}
+            <a class="btn btn-outline-light btn-sm w-100" href="{{ url_for('auth.login') }}">Login</a>
+          {% endif %}
+        </div>
+      </aside>
+
+      <main class="flex-grow-1">
+        <header class="topbar bg-white border-bottom">
+          <div class="container-fluid py-3 d-flex align-items-center justify-content-between">
+            <div>
+              <div class="h5 mb-0">{% block page_title %}Dashboard{% endblock %}</div>
+              <div class="text-secondary small">{% block page_subtitle %}EXTERNSHIP INTERN PLATFORM{% endblock %}</div>
+            </div>
+          </div>
+        </header>
+
+        <div class="container-fluid py-4">
+          {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
+

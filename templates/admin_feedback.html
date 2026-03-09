@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Weekly Feedback | Admin{% endblock %}
+{% block page_title %}Weekly Feedback{% endblock %}
+{% block page_subtitle %}Write feedback per intern per week{% endblock %}
+
+{% block content %}
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">Add Feedback</div>
+          <form method="post">
+            <div class="mb-2">
+              <label class="form-label">Intern</label>
+              <select class="form-select" name="intern_id" required>
+                <option value="">Select intern…</option>
+                {% for i in interns %}
+                  <option value="{{ i.id }}">{{ i.name }} ({{ i.email }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Week</label>
+              <input class="form-control" name="week" placeholder="e.g. 2026-W10" required />
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Date</label>
+              <input class="form-control" name="date" type="date" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Feedback</label>
+              <textarea class="form-control" name="feedback_text" rows="4" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">Feedback History</div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Intern</th>
+                  <th>Week</th>
+                  <th>Date</th>
+                  <th>Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for f in page.items %}
+                  <tr>
+                    <td class="fw-semibold">{{ f.intern.name }}</td>
+                    <td>{{ f.week }}</td>
+                    <td>{{ f.date }}</td>
+                    <td class="text-truncate" style="max-width: 360px;">{{ f.feedback_text }}</td>
+                  </tr>
+                {% else %}
+                  <tr><td colspan="4" class="text-secondary">No feedback yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% include "partials/pagination.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | EXTERNSHIP INTERN PLATFORM{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+{% block page_subtitle %}Overview of interns and activity{% endblock %}
+
+{% block content %}
+  <div class="row g-3">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Total Interns</div>
+          <div class="display-6 mb-0">{{ total_interns }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Today's Attendance</div>
+          <div class="display-6 mb-0">{{ today_attendance }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Pending Leave Requests</div>
+          <div class="display-6 mb-0">{{ pending_leaves }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Assigned Tasks</div>
+          <div class="display-6 mb-0">{{ assigned_tasks }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-lg-10">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6">Quick actions</div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="{{ url_for('admin.interns') }}">View Interns</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.attendance') }}">Attendance Report</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.leaves') }}">Review Leaves</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.projects') }}">Assign Projects</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.tasks') }}">Assign Tasks</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.feedback') }}">Weekly Feedback</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('admin.intern_friday') }}">Intern Friday</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6">Status snapshot</div>
+          <ul class="mb-0">
+            <li>Projects assigned (not completed): <strong>{{ assigned_projects }}</strong></li>
+            <li>Tasks assigned (not completed): <strong>{{ assigned_tasks }}</strong></li>
+            <li>Pending leave requests: <strong>{{ pending_leaves }}</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

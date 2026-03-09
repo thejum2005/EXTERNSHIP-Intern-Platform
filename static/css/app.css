@@ -1,0 +1,80 @@
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/*.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .nav-link {
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.8rem;
+}
+
+.sidebar .nav-link:hover {
+  background: rgb(236, 37, 33);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Login page background only 
+
+.login-bg {
+  min-height: 100vh;
+  background-image: url("/static/img/login-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}*/
+/* Sidebar color from palette (blue) */
+
+.sidebar{
+  width: 260px;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+
+  background-color: #00299f !important;
+}
+
+/* Keep sidebar text white */
+
+.sidebar .nav-link{
+  color: white;
+}
+
+.sidebar .nav-link:hover{
+  background: rgba(255,255,255,0.15);
+}
+
+/* Sidebar header text */
+
+.sidebar .small{
+  color: rgba(255, 255, 255, 0.967);
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Login page background only */
+
+.login-bg {
+  min-height: 100vh;
+  background-image: url("/static/img/login-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

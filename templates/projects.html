@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Projects | Intern{% endblock %}
+{% block page_title %}Projects{% endblock %}
+{% block page_subtitle %}View and complete assigned projects{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Deadline</th>
+              <th>Status</th>
+              <th style="width: 140px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in page.items %}
+              <tr>
+                <td class="fw-semibold">{{ p.title }}</td>
+                <td class="text-truncate" style="max-width: 420px;">{{ p.description }}</td>
+                <td>{{ p.deadline }}</td>
+                <td>
+                  {% if p.status == 'Completed' %}
+                    <span class="badge bg-success">Completed</span>
+                  {% else %}
+                    <span class="badge bg-primary">Assigned</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if p.status != 'Completed' %}
+                    <form method="post" action="{{ url_for('intern.complete_project', project_id=p.id) }}">
+                      <button class="btn btn-sm btn-success" type="submit">Mark completed</button>
+                    </form>
+                  {% else %}
+                    <span class="text-secondary small">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="5" class="text-secondary">No projects assigned yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </div>
+  </div>
+{% endblock %}
+

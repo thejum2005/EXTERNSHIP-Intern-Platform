@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Intern Dashboard | EXTERNSHIP INTERN PLATFORM{% endblock %}
+{% block page_title %}Intern Dashboard{% endblock %}
+{% block page_subtitle %}Your daily workspace{% endblock %}
+
+{% block content %}
+  <div class="row g-3">
+    <div class="col-md-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Attendance Today</div>
+          {% if attendance_today %}
+            <div class="h4 mb-0 text-success">Marked</div>
+            <div class="small text-secondary">{{ attendance_today.date }} at {{ attendance_today.time }}</div>
+          {% else %}
+            <div class="h4 mb-2 text-danger">Not marked</div>
+            <a class="btn btn-sm btn-primary" href="{{ url_for('intern.attendance') }}">Mark attendance</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Pending Leaves</div>
+          <div class="display-6 mb-0">{{ pending_leaves }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Assigned Projects</div>
+          <div class="display-6 mb-0">{{ assigned_projects }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-secondary small">Assigned Tasks</div>
+          <div class="display-6 mb-0">{{ assigned_tasks }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6">Quick links</div>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.attendance') }}">Attendance</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.leave') }}">Leave</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.projects') }}">Projects</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.tasks') }}">Tasks</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.feedback') }}">Feedback</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('intern.intern_friday') }}">Intern Friday</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6">Intern Friday</div>
+          {% if intern_friday_latest %}
+            <div class="small text-secondary">{{ intern_friday_latest.date }}</div>
+            <div class="fw-semibold">{{ intern_friday_latest.topic }}</div>
+          {% else %}
+            <div class="text-secondary">No selection yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

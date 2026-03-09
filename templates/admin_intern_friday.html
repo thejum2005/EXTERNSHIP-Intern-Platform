@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Intern Friday | Admin{% endblock %}
+{% block page_title %}Intern Friday{% endblock %}
+{% block page_subtitle %}Select an intern and assign a presentation topic{% endblock %}
+
+{% block content %}
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">Assign Intern Friday</div>
+          <form method="post">
+            <div class="mb-2">
+              <label class="form-label">Intern</label>
+              <select class="form-select" name="intern_id" required>
+                <option value="">Select intern…</option>
+                {% for i in interns %}
+                  <option value="{{ i.id }}">{{ i.name }} ({{ i.email }})</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-2">
+              <label class="form-label">Topic</label>
+              <input class="form-control" name="topic" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date</label>
+              <input class="form-control" name="date" type="date" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Assign</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="h6 mb-3">History</div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Intern</th>
+                  <th>Topic</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for it in page.items %}
+                  <tr>
+                    <td class="fw-semibold">{{ it.intern.name }}</td>
+                    <td>{{ it.topic }}</td>
+                    <td>{{ it.date }}</td>
+                  </tr>
+                {% else %}
+                  <tr><td colspan="3" class="text-secondary">No Intern Friday assignments yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          {% include "partials/pagination.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

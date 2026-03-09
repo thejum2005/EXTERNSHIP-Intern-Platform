@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks | Intern{% endblock %}
+{% block page_title %}Tasks{% endblock %}
+{% block page_subtitle %}View and complete assigned tasks{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th style="width: 140px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in page.items %}
+              <tr>
+                <td class="fw-semibold">{{ t.title }}</td>
+                <td class="text-truncate" style="max-width: 520px;">{{ t.description }}</td>
+                <td>
+                  {% if t.status == 'Completed' %}
+                    <span class="badge bg-success">Completed</span>
+                  {% else %}
+                    <span class="badge bg-primary">Assigned</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if t.status != 'Completed' %}
+                    <form method="post" action="{{ url_for('intern.complete_task', task_id=t.id) }}">
+                      <button class="btn btn-sm btn-success" type="submit">Mark completed</button>
+                    </form>
+                  {% else %}
+                    <span class="text-secondary small">—</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="text-secondary">No tasks assigned yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </div>
+  </div>
+{% endblock %}
+

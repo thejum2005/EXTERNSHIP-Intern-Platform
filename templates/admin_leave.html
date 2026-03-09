@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Leave Requests | Admin{% endblock %}
+{% block page_title %}Leave Requests{% endblock %}
+{% block page_subtitle %}Approve or reject leave applications{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <form class="row g-2 align-items-end" method="get">
+        <div class="col-md-4">
+          <label class="form-label">Status</label>
+          <select class="form-select" name="status">
+            <option value="" {% if not status_filter %}selected{% endif %}>All</option>
+            <option value="Pending" {% if status_filter=='Pending' %}selected{% endif %}>Pending</option>
+            <option value="Approved" {% if status_filter=='Approved' %}selected{% endif %}>Approved</option>
+            <option value="Rejected" {% if status_filter=='Rejected' %}selected{% endif %}>Rejected</option>
+          </select>
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+          <button class="btn btn-primary w-100" type="submit">Filter</button>
+          <a class="btn btn-outline-secondary w-100" href="{{ url_for('admin.leaves') }}">Reset</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Intern</th>
+              <th>Leave date</th>
+              <th>Type</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th style="width: 260px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for l in page.items %}
+              <tr>
+                <td class="fw-semibold">{{ l.intern.name }}</td>
+                <td>{{ l.leave_date }}</td>
+                <td>{{ l.leave_type }}</td>
+                <td class="text-truncate" style="max-width: 320px;">{{ l.reason }}</td>
+                <td>
+                  {% if l.status == 'Pending' %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  {% elif l.status == 'Approved' %}
+                    <span class="badge bg-success">Approved</span>
+                  {% else %}
+                    <span class="badge bg-danger">Rejected</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if l.status == 'Pending' %}
+                    <div class="d-flex gap-2">
+                      <form method="post" action="{{ url_for('admin.approve_leave', leave_id=l.id) }}">
+                        <button class="btn btn-sm btn-success" type="submit">Approve</button>
+                      </form>
+                      <form method="post" action="{{ url_for('admin.reject_leave', leave_id=l.id) }}">
+                        <input class="form-control form-control-sm mb-1" name="rejection_reason" placeholder="Rejection reason" required />
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Reject</button>
+                      </form>
+                    </div>
+                  {% else %}
+                    <div class="small text-secondary">
+                      {% if l.status == 'Rejected' and l.rejection_reason %}
+                        Rejection: {{ l.rejection_reason }}
+                      {% else %}
+                        —
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr><td colspan="6" class="text-secondary">No leave requests found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance | Intern{% endblock %}
+{% block page_title %}Attendance{% endblock %}
+{% block page_subtitle %}Mark attendance once per day{% endblock %}
+
+{% block content %}
+
+<!-- ===== Today's Attendance ===== -->
+<div class="card shadow-sm mb-3">
+
+  <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+    <div>
+      <div class="text-secondary small">Today</div>
+      <div class="h6 mb-0">{{ today }}</div>
+
+      <div class="small text-secondary">
+        {{ current_user.name }} ({{ current_user.email }})
+      </div>
+    </div>
+
+    <div>
+
+      {% if attendance_today %}
+
+        <span class="badge {% if attendance_today.status == 'Present' %}bg-success{% else %}bg-danger{% endif %}">
+          {{ attendance_today.status }}
+        </span>
+
+        <span class="text-secondary small ms-2">
+          Marked at {{ attendance_today.time }}
+        </span>
+
+      {% else %}
+
+        <form method="post"
+              action="{{ url_for('intern.mark_attendance') }}"
+              class="d-flex gap-2">
+
+          <button type="submit"
+                  name="status"
+                  value="Present"
+                  class="btn btn-success">
+            Present
+          </button>
+
+          <button type="submit"
+                  name="status"
+                  value="Absent"
+                  class="btn btn-danger">
+            Absent
+          </button>
+
+        </form>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ===== Attendance History ===== -->
+<div class="card shadow-sm">
+
+  <div class="card-body">
+
+    <div class="h6 mb-3">Attendance History</div>
+
+    <div class="table-responsive">
+
+      <table class="table table-sm align-middle">
+
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% if page.items %}
+
+            {% for a in page.items %}
+
+            <tr>
+
+              <td>{{ a.date }}</td>
+
+              <td>{{ a.time or "-" }}</td>
+
+              <td>
+                <span class="badge {% if a.status == 'Present' %}bg-success{% else %}bg-danger{% endif %}">
+                  {{ a.status }}
+                </span>
+              </td>
+
+            </tr>
+
+            {% endfor %}
+
+          {% else %}
+
+            <tr>
+              <td colspan="3" class="text-center text-secondary">
+                No attendance records yet.
+              </td>
+            </tr>
+
+          {% endif %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    {% include "partials/pagination.html" %}
+
+  </div>
+
+</div>
+
+{% endblock %}

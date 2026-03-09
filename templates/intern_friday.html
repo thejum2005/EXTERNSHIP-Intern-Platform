@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Intern Friday | Intern{% endblock %}
+{% block page_title %}Intern Friday{% endblock %}
+{% block page_subtitle %}Your selection status and topic history{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Topic</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for it in page.items %}
+              <tr>
+                <td>{{ it.date }}</td>
+                <td class="fw-semibold">{{ it.topic }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="2" class="text-secondary">You have not been selected yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </div>
+  </div>
+{% endblock %}
+

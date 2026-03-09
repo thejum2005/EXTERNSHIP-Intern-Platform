@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance Report | Admin{% endblock %}
+{% block page_title %}Attendance Report{% endblock %}
+{% block page_subtitle %}Filter by intern and month{% endblock %}
+
+{% block content %}
+
+<!-- ===== Filter Card ===== -->
+<div class="card shadow-sm mb-3">
+
+  <div class="card-body">
+
+    <form class="row g-2 align-items-end" method="get">
+
+      <!-- Intern Dropdown -->
+      <div class="col-md-5">
+
+        <label class="form-label">Select Intern</label>
+
+        <select class="form-select" name="intern_id">
+
+          <option value="">Select Intern</option>
+
+          {% for i in interns %}
+
+          <option value="{{ i.id }}"
+            {% if selected_intern_id == i.id %}selected{% endif %}>
+
+            {{ i.name }} ({{ i.email }})
+
+          </option>
+
+          {% endfor %}
+
+        </select>
+
+      </div>
+
+
+      <!-- Month Filter -->
+      <div class="col-md-4">
+
+        <label class="form-label">Month</label>
+
+        <input
+          class="form-control"
+          type="month"
+          name="month"
+          value="{{ selected_month }}">
+
+      </div>
+
+
+      <!-- Buttons -->
+      <div class="col-md-3 d-flex gap-2">
+
+        <button class="btn btn-primary w-100" type="submit">
+          View Attendance
+        </button>
+
+        <a class="btn btn-outline-secondary w-100"
+           href="{{ url_for('admin.attendance') }}">
+           Reset
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- ===== Attendance Table ===== -->
+<div class="card shadow-sm">
+
+  <div class="card-body">
+
+    <div class="table-responsive">
+
+      <table class="table table-sm align-middle">
+
+        <thead>
+
+          <tr>
+            <th>Intern</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          {% if page.items %}
+
+            {% for a in page.items %}
+
+            <tr>
+
+              <td class="fw-semibold">
+                {{ a.intern.name }} ({{ a.intern.email }})
+              </td>
+
+              <td>{{ a.date }}</td>
+
+              <td>{{ a.time or "-" }}</td>
+
+              <td>
+
+                {% if a.status == "Present" %}
+                  <span class="badge bg-success">Present</span>
+                {% else %}
+                  <span class="badge bg-danger">Absent</span>
+                {% endif %}
+
+              </td>
+
+            </tr>
+
+            {% endfor %}
+
+          {% else %}
+
+            <tr>
+              <td colspan="4" class="text-center text-secondary">
+                No attendance found.
+              </td>
+            </tr>
+
+          {% endif %}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    {% include "partials/pagination.html" %}
+
+  </div>
+
+</div>
+
+{% endblock %}

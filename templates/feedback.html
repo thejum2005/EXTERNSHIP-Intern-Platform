@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback | Intern{% endblock %}
+{% block page_title %}Weekly Feedback{% endblock %}
+{% block page_subtitle %}Feedback from your admin{% endblock %}
+
+{% block content %}
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Date</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in page.items %}
+              <tr>
+                <td class="fw-semibold">{{ f.week }}</td>
+                <td>{{ f.date }}</td>
+                <td>{{ f.feedback_text }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="3" class="text-secondary">No feedback yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% include "partials/pagination.html" %}
+    </div>
+  </div>
+{% endblock %}
+
