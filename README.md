@@ -27,7 +27,7 @@ Then open `http://localhost:5000`.
 
 
 
-You can create a test intern from the login page (“Create a test intern”) or as Admin via **Interns**.
+You can create a test intern from the login page (“Create a test intern or admin”) 
 
 ## Database
 - SQLite file is created at `database/database.db`
